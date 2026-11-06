@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {TH,TABS,HIDE,CNT,LABEL,PH,RANKS,isAgent,fieldsFor,statsFor,barsFor,resize} from './data';
-import {CcgCard,Swords} from './CcgCard';
+import {CcgCard,CardEditor,Swords} from './CcgCard';
 
 function Pic({src,cls,w,onPick}){
   return <label className={cls} style={src?{backgroundImage:`url(${src})`}:undefined}>
@@ -13,13 +13,13 @@ function Info({c,theme,set}){
   return <div className="card info">
     {theme==='ccg'&&<label className="hyb"><input type="checkbox" checked={!!c.hybrid} onChange={()=>set({hybrid:!c.hybrid})}/>Ghoul</label>}
     {theme==='ghoul'&&<label className="hyb"><input type="checkbox" checked={!!c.agent} onChange={()=>set({agent:!c.agent})}/><Swords/> CCG</label>}
-    <datalist id="ranks">{RANKS.map(r=><option key={r} value={r}/>)}</datalist>
+    <datalist id="ranks">{RANKS.map(r=><option key={r[0]} value={r[0]}/>)}</datalist>
     {fieldsFor(theme,c).map(([k,l,opts])=>{
     const v=k==='cat'?TH[theme]:k==='name'?c.name:c.f[k]??'';
     const on=e=>k==='name'?set({name:e.target.value}):set({f:{...c.f,[k]:e.target.value}});
-    return <label className="fld" key={k}>{l}{opts
+    return <label className="fld" key={k}>{l}{Array.isArray(opts)
       ?<select value={v} onChange={on}><option value=""></option>{opts.map(o=><option key={o}>{o}</option>)}</select>
-      :<input value={v} onChange={on} readOnly={k==='cat'} list={k==='patente'?'ranks':undefined}/>}</label>;
+      :<input value={v} onChange={on} readOnly={k==='cat'} type={typeof opts==='string'?opts:'text'} list={k==='patente'?'ranks':undefined}/>}</label>;
   })}</div>;
 }
 
@@ -50,7 +50,7 @@ function Overview(p){
   return <div className="grid">
     <div>
       <div className="photos">{[1,2].map(n=><Pic key={n} cls={'photo'+(ag?' ccgf':'')} src={c['img'+n]} w={420} onPick={v=>set({['img'+n]:v})}/>)}</div>
-      {ag&&<CcgCard c={c}/>}
+      {ag&&<><CcgCard c={c}/><CardEditor c={c} set={set}/></>}
       {pins.length>0&&<div style={{marginTop:'1rem'}}>
         <small style={{color:'var(--muted)'}}>NPCs</small>
         <div className="photos" style={{gridTemplateColumns:'repeat(auto-fill,minmax(90px,1fr))',marginTop:'.4rem'}}>

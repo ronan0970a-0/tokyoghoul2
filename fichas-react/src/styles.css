@@ -106,3 +106,16 @@ nav.tabs button.on{border-left-color:var(--acc);background:var(--panel2)}
 .idcard .ft{padding:0 .8rem .6rem;text-align:right;font-size:.8rem;font-weight:700;letter-spacing:.08em}
 .idcard .ft svg{display:block;margin-bottom:.2rem}
 @media(max-width:480px){.idcard .seal{display:none}.idcard .bd{grid-template-columns:34% 1fr}}
+
+/* cartão CCG v2: borda por patente, cores personalizáveis, selos de situação */
+.idcard{padding:4px;background:var(--rk);border:0}
+.idcard .in{border-radius:7px;overflow:hidden;background:var(--cb);color:var(--ct)}
+.idcard .rk{border:1px solid currentColor}
+.idcard .meta{color:inherit;opacity:.8}
+.idcard .jp{font-size:.7em;font-weight:600;opacity:.85;white-space:nowrap}
+.stamp{display:inline-block;margin-top:.6rem;padding:.1rem .5rem;border:2px solid currentColor;border-radius:4px;font-size:.78rem;font-weight:800;letter-spacing:.14em;transform:rotate(-6deg);background:#fff9}
+.s0{color:#1b8a4b}.s1{color:#c27a00}.s2{color:#2f64b0}.s3{color:#7a3fb0}.s4{color:#b3121d;text-decoration:line-through}
+.cust{margin-top:.6rem;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.6rem .9rem}
+.cust summary{cursor:pointer;color:var(--muted)}
+.cust .row{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-top:.6rem;font-size:.88rem;color:var(--muted)}
+.cust input[type=color]{width:46px;height:30px;padding:0;border:1px solid var(--line);background:none;cursor:pointer}
