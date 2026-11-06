@@ -49,7 +49,7 @@ export default function App(){
     if(error)return setSt(error.message);
     open(data.id);
   };
-  const remove=async id=>{if(!confirm('Excluir este personagem?'))return;await sb.from('characters').delete().eq('id',id);load()};
+  const remove=async id=>{const n=list.find(x=>x.id===id)?.name||'este personagem';if(!confirm(`Excluir "${n}"? Não dá para desfazer.`))return;const {error}=await sb.from('characters').delete().eq('id',id);if(error)setSt('Erro ao excluir: '+error.message);load()};
   const back=()=>{setCur(null);load()};
 
   // altera a ficha e salva no Supabase 700 ms depois da última alteração

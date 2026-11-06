@@ -23,12 +23,15 @@ language sql security definer set search_path = public stable as
 $$ select exists (select 1 from public.masters where user_id = auth.uid()) $$;
 grant execute on function public.is_master() to authenticated;
 
--- mestre vê e edita todas as fichas (excluir continua só para o dono)
+-- mestre vê, edita e exclui todas as fichas
 drop policy if exists "mestre ve tudo" on public.characters;
 create policy "mestre ve tudo" on public.characters for select to authenticated using (public.is_master());
 drop policy if exists "mestre edita tudo" on public.characters;
 create policy "mestre edita tudo" on public.characters for update to authenticated
   using (public.is_master()) with check (public.is_master());
+
+drop policy if exists "mestre exclui tudo" on public.characters;
+create policy "mestre exclui tudo" on public.characters for delete to authenticated using (public.is_master());
 
 -- perfis (e-mail de cada jogador) para o mestre saber de quem é cada ficha
 create table if not exists public.profiles (id uuid primary key references auth.users(id) on delete cascade, email text);
@@ -45,4 +48,4 @@ create trigger on_auth_user_created after insert on auth.users for each row exec
 insert into public.profiles (id, email) select id, email from auth.users on conflict do nothing;  -- usuários já existentes
 
 -- TORNAR ALGUÉM MESTRE (troque o e-mail e rode):
--- insert into public.masters (user_id) select id from auth.users where email = 'SEU_EMAIL_AQUI' on conflict do nothing;
+insert into public.masters (user_id) select id from auth.users where email = 'anthonyacbb22@gmail.com' on conflict do nothing;  -- a conta precisa já existir

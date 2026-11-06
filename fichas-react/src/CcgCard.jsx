@@ -45,7 +45,7 @@ export function CcgCard({c}){
   const si=SITU.indexOf(f.situacao);
   const seed=(c.name||'')+(f.player||'');
   const num=f.matricula||String([...seed].reduce((a,ch)=>(a*31+ch.charCodeAt(0))>>>0,7)%1e8).padStart(8,'0');
-  const lines=[['Player',f.player],f.nasc?['Nascimento',f.nasc.split('-').reverse().join('/')]:['Idade',f.idade],['Divisão',f.divisao],['Esquadrão',f.esquadrao],['Sangue',f.sangue]].filter(x=>x[1]);
+  const lines=[['Player',f.player],f.nasc?['Nascimento',f.nasc.split('-').reverse().join('/')]:['Idade',f.idade],['Local',f.local],['Divisão',f.divisao],['Esquadrão',f.esquadrao],['Sangue',f.sangue]].filter(x=>x[1]);
   return <div className="idcard" style={{'--rk':rk,'--cb':cd.bg,'--ct':txt(cd.bg)}}>
     <div className="in">
       <div className="hd" style={{background:cd.hd,color:txt(cd.hd)}}>

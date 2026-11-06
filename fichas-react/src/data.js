@@ -5,10 +5,10 @@ export const CNT=[['equip','Equipamentos'],['acess','Acessórios'],['kag','Kagun
 export const SITU=['Ativo','Afastado','Aposentado','Desaparecido','Falecido'];
 const BLOOD=['A+','A-','B+','B-','AB+','AB-','O+','O-'];
 export const FIELDS={
- ghoul:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['kagune','Kagune'],['tipo','Tipo da Kagune',['Ukaku','Koukaku','Rinkaku','Bikaku','Quimera']],['lvk','LV Kgn']],
- ccg:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['patente','Patente'],['quinque','Quinque principal'],['lvq','LV Qn'],['nomeJp','Nome em japonês (opcional)'],['matricula','Matrícula'],['divisao','Divisão'],['esquadrao','Esquadrão'],['nasc','Nascimento','date'],['sangue','Tipo sanguíneo',BLOOD],['situacao','Situação',SITU]],
- humano:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['prof','Profissão']]};
-export const STATS={base:['Força','Defesa','Velocidade','Auto Controle'],ghoul:['Kagune','Fome'],ccg:['Quinque'],humano:[]};
+ ghoul:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['kagune','Kagune'],['tipo','Tipo da Kagune',['Ukaku','Koukaku','Rinkaku','Bikaku','Quimera']],['lvk','LV Kgn'],['nomeJp','Nome em japonês (opcional)'],['nasc','Nascimento','date'],['local','Local de nascimento']],
+ ccg:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['patente','Patente'],['quinque','Quinque principal'],['lvq','LV Qn'],['nomeJp','Nome em japonês (opcional)'],['matricula','Matrícula'],['divisao','Divisão'],['esquadrao','Esquadrão'],['nasc','Nascimento','date'],['local','Local de nascimento'],['sangue','Tipo sanguíneo',BLOOD],['situacao','Situação',SITU]],
+ humano:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['prof','Profissão'],['local','Local de nascimento']]};
+export const STATS={base:['Força','Defesa','Velocidade','Auto Controle'],ghoul:['Kagune','DEF Kagune','Fome'],ccg:['Quinque'],humano:[]};
 export const LISTS=['equip','acess','kag','pas','hab','npc','anot'];
 export const LABEL={equip:'Equipamentos',acess:'Acessórios',kag:'Kagune/Quinque',pas:'Passivas',hab:'Habilidades especiais',npc:'NPCs',anot:'Anotações'};
 export const PH=['acess','kag','npc']; // listas com foto
@@ -20,7 +20,7 @@ export const isAgent=(t,c)=>t==='ccg'||agt(t,c);
 const G=(a,b)=>`linear-gradient(135deg,${a},${b},${a})`;
 export const RANKS=[['Assistente','#7d8590'],['Investigador de 3ª Classe',G('#8c5a2b','#d79a5c')],['Investigador de 2ª Classe',G('#8d949b','#e6e9ec')],['Investigador de 1ª Classe',G('#b8860b','#ffd966')],['Investigador Associado Especial',G('#8e0f1a','#ff4b57')],['Investigador Especial de 2ª Classe',G('#4b1d8f','#b07cff')],['Investigador Especial de 1ª Classe',G('#0b3d91','#6fb1ff')],['Investigador Especial','linear-gradient(135deg,#111,#ffd966 50%,#111)']];
 const CF=FIELDS.ccg.slice(FIELDS.ccg.findIndex(x=>x[0]==='patente')); // campos de CCG
-export const fieldsFor=(t,c)=>agt(t,c)?[...FIELDS.ghoul,...CF]:hyb(t,c)?[...FIELDS.ccg,...FIELDS.ghoul.filter(x=>['kagune','tipo','lvk'].includes(x[0]))]:FIELDS[t];
+export const fieldsFor=(t,c)=>agt(t,c)?[...FIELDS.ghoul,...CF.filter(x=>!FIELDS.ghoul.some(g=>g[0]===x[0]))]:hyb(t,c)?[...FIELDS.ccg,...FIELDS.ghoul.filter(x=>['kagune','tipo','lvk'].includes(x[0]))]:FIELDS[t];
 export const statsFor=(t,c)=>[...STATS.base,...STATS[t],...(hyb(t,c)?STATS.ghoul:[]),...(agt(t,c)?STATS.ccg:[])];
 export const barsFor=(t,c)=>t==='ghoul'||hyb(t,c)?['HP','Sanidade','Fome']:['HP','Sanidade'];
 export const blank=()=>({name:'Novo personagem',f:{},stats:{},bars:{},hist:'',img1:'',img2:'',cap2:'',...Object.fromEntries(LISTS.map(k=>[k,[]]))});

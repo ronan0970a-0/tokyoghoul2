@@ -39,7 +39,7 @@ export function CharList({list,create,open,remove,master,scope,setScope,emails,u
       </div>}
     {rows.length?rows.map(c=><div className="item" key={c.id}>
       <b style={{alignSelf:'center'}}>{c.name} <small style={{color:'var(--muted)'}}>· {TH[c.theme]}{all&&` · ${emails[c.owner]||'jogador'}`}</small></b>
-      <span><button className="del" style={{width:'auto',padding:'0 .8rem'}} onClick={()=>open(c.id)}>Abrir</button>{c.owner===uid&&<> <button className="del" onClick={()=>remove(c.id)} aria-label="Excluir">×</button></>}</span>
+      <span><button className="del" style={{width:'auto',padding:'0 .8rem'}} onClick={()=>open(c.id)}>Abrir</button>{(c.owner===uid||master)&&<> <button className="del" onClick={()=>remove(c.id)} aria-label="Excluir">×</button></>}</span>
     </div>):<div className="empty">Nenhum personagem encontrado.</div>}
   </>;
 }
