@@ -73,3 +73,15 @@ textarea{width:100%;min-height:110px;resize:vertical}
 [data-theme=ccg] h2::after{background:linear-gradient(90deg,var(--acc) 60%,#fff 60% 80%,transparent 80%)}
 [data-theme=humano] h2::after{background:#fff}
 @media(prefers-reduced-motion:reduce){.drips span{animation:none;height:var(--h)}}
+
+/* menu lateral (hambúrguer) */
+nav.tabs{position:fixed;top:0;bottom:0;left:0;z-index:40;width:min(300px,82vw);flex-direction:column;gap:.1rem;margin:0;padding:calc(env(safe-area-inset-top,0px) + 1rem) .6rem 1rem;background:var(--panel);border:0;border-right:1px solid var(--line);box-shadow:var(--glow);overflow-y:auto;transform:translateX(-105%);visibility:hidden;transition:transform .25s,visibility .25s}
+nav.tabs.open{transform:none;visibility:visible}
+nav.tabs button{text-align:left;border-bottom:0;border-left:3px solid transparent;border-radius:0 6px 6px 0;padding:.8rem 1rem}
+nav.tabs button.on{border-left-color:var(--acc);background:var(--panel2)}
+.menubar{display:flex;align-items:center;gap:.8rem;margin:1rem 0}
+.menubar b{font-size:1.05rem}
+.burger{width:44px;height:44px;display:grid;place-content:center;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.burger:hover{border-color:var(--acc)}
+.burger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px}
+.scrim{position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.6)}

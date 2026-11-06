@@ -90,7 +90,7 @@ function ListView({k,c,set}){
 
 export default function Sheet({cur,change,back}){
   const {c,theme}=cur;
-  const [tab,setTab]=useState('geral');
+  const [tab,setTab]=useState('geral'),[menu,setMenu]=useState(false);
   const hide=HIDE[theme],t=hide.includes(tab)?'geral':tab;
   const p={c,theme,go:setTab,set:patch=>change({...c,...patch})};
   return <>
@@ -98,7 +98,12 @@ export default function Sheet({cur,change,back}){
       <h2>{c.name||'Sem nome'}</h2>
       <a href="#" onClick={e=>{e.preventDefault();back()}} style={{color:'var(--muted)'}}>Voltar aos personagens</a>
     </div>
-    <nav className="tabs">{TABS.filter(x=>!hide.includes(x[0])).map(([k,l])=><button key={k} className={k===t?'on':''} onClick={()=>setTab(k)}>{l}</button>)}</nav>
+    <div className="menubar">
+      <button className="burger" onClick={()=>setMenu(true)} aria-label="Abrir menu"><span/><span/><span/></button>
+      <b>{TABS.find(x=>x[0]===t)[1]}</b>
+    </div>
+    {menu&&<div className="scrim" onClick={()=>setMenu(false)}/>}
+    <nav className={'tabs'+(menu?' open':'')}>{TABS.filter(x=>!hide.includes(x[0])).map(([k,l])=><button key={k} className={k===t?'on':''} onClick={()=>{setTab(k);setMenu(false)}}>{l}</button>)}</nav>
     {t==='geral'&&<Overview {...p}/>}
     {t==='info'&&<Info {...p}/>}
     {t==='status'&&<><Bars {...p}/><Stats {...p}/></>}
