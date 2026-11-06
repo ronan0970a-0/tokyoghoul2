@@ -91,3 +91,18 @@ nav.tabs button.on{border-left-color:var(--acc);background:var(--panel2)}
 [data-hybrid="1"] body{background:transparent}
 .hyb{grid-column:1/-1;display:flex;align-items:center;gap:.6rem;cursor:pointer;padding:.4rem 0 .6rem;border-bottom:1px solid var(--line);margin-bottom:.3rem}
 .hyb input{width:18px;height:18px;accent-color:var(--acc)}
+
+/* CCG: moldura das fotos e cartão de identificação */
+.ccgf{border:3px solid #c1121f!important;background-color:#f1f3f3!important;color:#555!important;box-shadow:inset 0 0 0 5px #f1f3f3}
+.hyb svg{flex:none}
+.idcard{margin-top:1rem;border-radius:10px;overflow:hidden;background:linear-gradient(#eceeee,#cdd3d3);color:#111;border:1px solid #000;box-shadow:0 2px 12px rgba(0,0,0,.5)}
+.idcard .hd{background:#0a0a0a;color:#fff;padding:.45rem .8rem;font:700 .78rem Georgia,serif;letter-spacing:.04em}
+.idcard .hd b{color:#d4202c;font-size:1.45em}
+.idcard .bd{display:grid;grid-template-columns:30% 1fr auto;gap:.8rem;padding:.8rem;align-items:start}
+.idcard .ph{aspect-ratio:3/4;border:2px solid #d4202c;background:#fff center/cover no-repeat}
+.idcard .nm{font:700 1.3rem Georgia,serif;overflow-wrap:anywhere}
+.idcard .rk{display:inline-block;margin-top:.4rem;padding:.05rem .4rem;border:1px solid #111;font-size:.82rem}
+.idcard .meta{margin-top:.6rem;font-size:.72rem;color:#333;line-height:1.5}
+.idcard .ft{padding:0 .8rem .6rem;text-align:right;font-size:.8rem;font-weight:700;letter-spacing:.08em}
+.idcard .ft svg{display:block;margin-bottom:.2rem}
+@media(max-width:480px){.idcard .seal{display:none}.idcard .bd{grid-template-columns:34% 1fr}}
