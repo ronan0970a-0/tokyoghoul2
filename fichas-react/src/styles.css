@@ -65,8 +65,8 @@ textarea{width:100%;min-height:110px;resize:vertical}
 /* sangue */
 .drips{position:fixed;left:0;right:0;top:0;height:0;z-index:15;pointer-events:none;display:none}
 [data-theme=ghoul] .drips{display:block}
-.drips span{position:absolute;top:calc(env(safe-area-inset-top,0px) + 53px);width:var(--w);height:0;background:linear-gradient(#8a0010,#c1121f 70%,#e0202c);border-radius:0 0 var(--w) var(--w);animation:drip var(--d) ease-in infinite;animation-delay:var(--l)}
-.drips span::after{content:"";position:absolute;bottom:-3px;left:50%;width:calc(var(--w) * 1.7);height:calc(var(--w) * 2);background:#c1121f;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;transform:translateX(-50%)}
+.drips span{position:absolute;top:calc(env(safe-area-inset-top,0px) + 53px);width:var(--w);height:0;background:linear-gradient(var(--b1,#8a0010),var(--b2,#c1121f) 70%,var(--b3,#e0202c));border-radius:0 0 var(--w) var(--w);animation:drip var(--d) ease-in infinite;animation-delay:var(--l)}
+.drips span::after{content:"";position:absolute;bottom:-3px;left:50%;width:calc(var(--w) * 1.7);height:calc(var(--w) * 2);background:var(--b2,#c1121f);border-radius:50% 50% 50% 50%/40% 40% 60% 60%;transform:translateX(-50%)}
 @keyframes drip{0%{height:0;opacity:1}55%{height:var(--h)}85%{height:calc(var(--h) + 30px);opacity:1}100%{height:calc(var(--h) + 60px);opacity:0}}
 [data-theme=ghoul] header{border-bottom:3px solid var(--acc);box-shadow:0 4px 18px rgba(193,18,31,.45)}
 [data-theme=ccg] header{border-bottom:2px solid var(--acc);box-shadow:0 2px 0 #fff}
@@ -85,3 +85,9 @@ nav.tabs button.on{border-left-color:var(--acc);background:var(--panel2)}
 .burger:hover{border-color:var(--acc)}
 .burger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px}
 .scrim{position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.6)}
+
+/* CCG quimera: tema azul + sangue vermelho escuro ao fundo, atrás de todo o conteúdo */
+[data-theme=ccg][data-hybrid="1"] .drips{display:block;z-index:-1;--b1:#2a0307;--b2:#4d0910;--b3:#6b0f18}
+[data-hybrid="1"] body{background:transparent}
+.hyb{grid-column:1/-1;display:flex;align-items:center;gap:.6rem;cursor:pointer;padding:.4rem 0 .6rem;border-bottom:1px solid var(--line);margin-bottom:.3rem}
+.hyb input{width:18px;height:18px;accent-color:var(--acc)}

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {TH,TABS,HIDE,CNT,FIELDS,STATS,LABEL,PH,BARS,resize} from './data';
+import {TH,TABS,HIDE,CNT,LABEL,PH,fieldsFor,statsFor,barsFor,resize} from './data';
 
 function Pic({src,cls,w,onPick}){
   return <label className={cls} style={src?{backgroundImage:`url(${src})`}:undefined}>
@@ -9,9 +9,11 @@ function Pic({src,cls,w,onPick}){
 }
 
 function Info({c,theme,set}){
-  return <div className="card info">{FIELDS[theme].map(([k,l,opts])=>{
-    const v=k==='cat'?TH[theme]:c.f[k]??'';
-    const on=e=>set({f:{...c.f,[k]:e.target.value}});
+  return <div className="card info">
+    {theme==='ccg'&&<label className="hyb"><input type="checkbox" checked={!!c.hybrid} onChange={()=>set({hybrid:!c.hybrid})}/>Também é ghoul (quimera)</label>}
+    {fieldsFor(theme,c).map(([k,l,opts])=>{
+    const v=k==='cat'?TH[theme]:k==='name'?c.name:c.f[k]??'';
+    const on=e=>k==='name'?set({name:e.target.value}):set({f:{...c.f,[k]:e.target.value}});
     return <label className="fld" key={k}>{l}{opts
       ?<select value={v} onChange={on}><option value=""></option>{opts.map(o=><option key={o}>{o}</option>)}</select>
       :<input value={v} onChange={on} readOnly={k==='cat'}/>}</label>;
@@ -19,7 +21,7 @@ function Info({c,theme,set}){
 }
 
 function Bars({c,theme,set}){
-  return <div className="card">{BARS(theme).map(n=>{
+  return <div className="card">{barsFor(theme,c).map(n=>{
     const x=c.bars[n]||{cur:0,max:0};
     const p=x.max>0?Math.max(0,Math.min(100,x.cur/x.max*100)):0;
     const on=k=>e=>set({bars:{...c.bars,[n]:{...x,[k]:+e.target.value||0}}});
@@ -31,7 +33,7 @@ function Bars({c,theme,set}){
 }
 
 function Stats({c,theme,set}){
-  return <div className="card stats">{[...STATS.base,...STATS[theme]].map(n=>{
+  return <div className="card stats">{statsFor(theme,c).map(n=>{
     const v=c.stats[n]??0;
     const m=d=>set({stats:{...c.stats,[n]:Math.max(0,v+d)}});
     return <div className="stat" key={n}><small>{n}</small>
@@ -45,10 +47,6 @@ function Overview(p){
   return <div className="grid">
     <div>
       <div className="photos">{[1,2].map(n=><Pic key={n} cls="photo" src={c['img'+n]} w={420} onPick={v=>set({['img'+n]:v})}/>)}</div>
-      <div className="photos">
-        <input className="cap" value={c.name} onChange={e=>set({name:e.target.value})} aria-label="Nome"/>
-        <input className="cap" value={c.cap2} onChange={e=>set({cap2:e.target.value})} aria-label="Forma"/>
-      </div>
       {pins.length>0&&<div style={{marginTop:'1rem'}}>
         <small style={{color:'var(--muted)'}}>NPCs</small>
         <div className="photos" style={{gridTemplateColumns:'repeat(auto-fill,minmax(90px,1fr))',marginTop:'.4rem'}}>
@@ -67,14 +65,14 @@ function Overview(p){
   </div>;
 }
 
-function ListView({k,c,set}){
+function ListView({k,c,set,theme}){
   const [n,setN]=useState(''),[d,setD]=useState('');
   const arr=c[k],ph=PH.includes(k);
   const upd=(i,patch)=>set({[k]:arr.map((x,j)=>j===i?{...x,...patch}:x)});
   const add=()=>{if(!n.trim())return;set({[k]:[...arr,{n:n.trim(),d:d.trim()}]});setN('');setD('')};
   return <div className="card">
     <div className="add">
-      <input value={n} onChange={e=>setN(e.target.value)} placeholder={`Nome (${LABEL[k]})`}/>
+      <input value={n} onChange={e=>setN(e.target.value)} placeholder={`Nome (${k==='kag'?(theme==='ccg'?'Quinque':'Kagune'):LABEL[k]})`}/>
       <button onClick={add}>Adicionar</button>
       <textarea value={d} onChange={e=>setD(e.target.value)} placeholder="Descrição, dano, efeito..."/>
     </div>

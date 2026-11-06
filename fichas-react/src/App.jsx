@@ -15,6 +15,7 @@ export default function App(){
   const timer=useRef();
 
   useEffect(()=>{document.documentElement.dataset.theme=theme},[theme]);
+  useEffect(()=>{document.documentElement.dataset.hybrid=cur&&cur.theme==='ccg'&&cur.c.hybrid?'1':'0'},[cur]);
   useEffect(()=>{
     sb.auth.getSession().then(({data})=>{setUser(data.session?.user??null);setReady(true)});
     const {data:{subscription}}=sb.auth.onAuthStateChange((_,s)=>setUser(s?.user??null));
@@ -27,7 +28,10 @@ export default function App(){
   const open=async id=>{
     const {data,error}=await sb.from('characters').select('*').eq('id',id).single();
     if(error)return setSt(error.message);
-    setTheme(data.theme);setCur({id:data.id,theme:data.theme,c:{...blank(),...data.data}});
+    const c={...blank(),...data.data};
+    if(c.quin?.length)c.kag=[...c.kag,...c.quin]; // junta Quinques antigos em Kagune/Quinque
+    delete c.quin;
+    setTheme(data.theme);setCur({id:data.id,theme:data.theme,c});
   };
   const create=async th=>{
     const c=blank();
