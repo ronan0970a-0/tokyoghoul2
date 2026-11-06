@@ -3,9 +3,9 @@ export const TABS=[['geral','Visão geral'],['info','Informações pessoais'],['
 export const HIDE={ghoul:[],ccg:[],humano:['kag']};
 export const CNT=[['equip','Equipamentos'],['acess','Acessórios'],['kag','Kagune/Quinque'],['pas','Passivas'],['hab','Habilidades'],['npc','NPCs'],['anot','Anotações','hist']];
 export const FIELDS={
- ghoul:[['name','Nome'],['player','Player'],['cat','Categoria'],['alt','Altura'],['peso','Peso'],['kagune','Kagune'],['tipo','Tipo da Kagune',['Ukaku','Koukaku','Rinkaku','Bikaku','Quimera']],['lvk','LV Kgn']],
- ccg:[['name','Nome'],['player','Player'],['cat','Categoria'],['alt','Altura'],['peso','Peso'],['patente','Patente'],['quinque','Quinque principal'],['lvq','LV Qn']],
- humano:[['name','Nome'],['player','Player'],['cat','Categoria'],['alt','Altura'],['peso','Peso'],['prof','Profissão'],['idade','Idade']]};
+ ghoul:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['kagune','Kagune'],['tipo','Tipo da Kagune',['Ukaku','Koukaku','Rinkaku','Bikaku','Quimera']],['lvk','LV Kgn']],
+ ccg:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['patente','Patente'],['quinque','Quinque principal'],['lvq','LV Qn']],
+ humano:[['name','Nome'],['player','Player'],['cat','Categoria'],['idade','Idade'],['alt','Altura'],['peso','Peso'],['prof','Profissão']]};
 export const STATS={base:['Força','Defesa','Velocidade','Auto Controle'],ghoul:['Kagune','Fome'],ccg:['Quinque'],humano:[]};
 export const LISTS=['equip','acess','kag','pas','hab','npc','anot'];
 export const LABEL={equip:'Equipamentos',acess:'Acessórios',kag:'Kagune/Quinque',pas:'Passivas',hab:'Habilidades especiais',npc:'NPCs',anot:'Anotações'};

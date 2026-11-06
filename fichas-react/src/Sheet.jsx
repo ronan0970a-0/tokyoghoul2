@@ -10,7 +10,7 @@ function Pic({src,cls,w,onPick}){
 
 function Info({c,theme,set}){
   return <div className="card info">
-    {theme==='ccg'&&<label className="hyb"><input type="checkbox" checked={!!c.hybrid} onChange={()=>set({hybrid:!c.hybrid})}/>Também é ghoul (quimera)</label>}
+    {theme==='ccg'&&<label className="hyb"><input type="checkbox" checked={!!c.hybrid} onChange={()=>set({hybrid:!c.hybrid})}/>Ghoul</label>}
     {fieldsFor(theme,c).map(([k,l,opts])=>{
     const v=k==='cat'?TH[theme]:k==='name'?c.name:c.f[k]??'';
     const on=e=>k==='name'?set({name:e.target.value}):set({f:{...c.f,[k]:e.target.value}});
