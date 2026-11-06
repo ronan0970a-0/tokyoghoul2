@@ -12,6 +12,7 @@ function Drips(){
 export default function App(){
   const [user,setUser]=useState(null),[ready,setReady]=useState(false);
   const [theme,setTheme]=useState('ghoul'),[list,setList]=useState([]),[cur,setCur]=useState(null),[st,setSt]=useState('');
+  const [master,setMaster]=useState(false),[scope,setScope]=useState('mine'),[emails,setEmails]=useState({});
   const timer=useRef();
 
   useEffect(()=>{document.documentElement.dataset.theme=theme},[theme]);
@@ -22,8 +23,17 @@ export default function App(){
     return ()=>subscription.unsubscribe();
   },[]);
 
-  const load=async()=>{const {data}=await sb.from('characters').select('id,theme,name').order('updated_at',{ascending:false});setList(data||[])};
-  useEffect(()=>{if(user)load();else{setCur(null);setList([])}},[user?.id]);
+  const load=async()=>{
+    let q=sb.from('characters').select('id,theme,name,owner').order('updated_at',{ascending:false});
+    if(scope!=='all')q=q.eq('owner',user.id); // o mestre também enxerga tudo pelo RLS, então filtramos "minhas"
+    const {data}=await q;setList(data||[]);
+    if(scope==='all'){const {data:p}=await sb.from('profiles').select('id,email');setEmails(Object.fromEntries((p||[]).map(x=>[x.id,x.email])))}
+  };
+  useEffect(()=>{
+    if(!user){setCur(null);setList([]);setMaster(false);setScope('mine');return}
+    sb.rpc('is_master').then(({data})=>setMaster(!!data));
+  },[user?.id]);
+  useEffect(()=>{if(user)load()},[user?.id,scope]);
 
   const open=async id=>{
     const {data,error}=await sb.from('characters').select('*').eq('id',id).single();
@@ -31,7 +41,7 @@ export default function App(){
     const c={...blank(),...data.data};
     if(c.quin?.length)c.kag=[...c.kag,...c.quin]; // junta Quinques antigos em Kagune/Quinque
     delete c.quin;
-    setTheme(data.theme);setCur({id:data.id,theme:data.theme,c});
+    setTheme(data.theme);setCur({id:data.id,theme:data.theme,owner:data.owner,c});
   };
   const create=async th=>{
     const c=blank();
@@ -60,6 +70,6 @@ export default function App(){
       <span style={{color:'var(--muted)',fontSize:'.8rem'}}>{st}</span>
       {user&&<button className="del" style={{width:'auto',padding:'0 .8rem'}} onClick={()=>sb.auth.signOut()}>Sair</button>}
     </header>
-    <main>{!ready?null:!user?<Auth/>:cur?<Sheet cur={cur} change={change} back={back}/>:<CharList list={list} create={create} open={open} remove={remove}/>}</main>
+    <main>{!ready?null:!user?<Auth/>:cur?<Sheet cur={cur} change={change} back={back} viewing={cur.owner!==user.id?(emails[cur.owner]||'outro jogador'):null}/>:<CharList list={list} create={create} open={open} remove={remove} master={master} scope={scope} setScope={setScope} emails={emails} uid={user.id}/>}</main>
   </>;
 }

@@ -86,12 +86,13 @@ function ListView({k,c,set,theme}){
   </div>;
 }
 
-export default function Sheet({cur,change,back}){
+export default function Sheet({cur,change,back,viewing}){
   const {c,theme}=cur;
   const [tab,setTab]=useState('geral'),[menu,setMenu]=useState(false);
   const hide=HIDE[theme],t=hide.includes(tab)?'geral':tab;
   const p={c,theme,go:setTab,set:patch=>change({...c,...patch})};
   return <>
+    {viewing&&<div className="card" style={{padding:'.6rem 1rem',marginTop:'1rem',marginBottom:0}}>Modo mestre · ficha de <b>{viewing}</b></div>}
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'end',gap:'1rem',flexWrap:'wrap'}}>
       <h2>{c.name||'Sem nome'}</h2>
       <a href="#" onClick={e=>{e.preventDefault();back()}} style={{color:'var(--muted)'}}>Voltar aos personagens</a>
