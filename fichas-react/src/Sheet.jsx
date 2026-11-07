@@ -2,10 +2,12 @@ import {useState} from 'react';
 import {TH,TABS,HIDE,CNT,LABEL,PH,RANKS,isAgent,fieldsFor,statsFor,barsFor,resize} from './data';
 import {CcgCard,CardEditor,Swords} from './CcgCard';
 import {GhoulCard} from './GhoulCard';
+import Dice from './Dice';
+import {Fit,PhotoAdjust} from './PhotoAdjust';
 
-function Pic({src,cls,w,onPick}){
-  return <label className={cls} style={src?{backgroundImage:`url(${src})`}:undefined}>
-    {src?'':'Sem foto'}
+function Pic({src,adj,cls,w,onPick}){
+  return <label className={cls}>
+    {src?<Fit src={src} adj={adj}/>:'Sem foto'}
     <input type="file" accept="image/*" hidden onChange={async e=>{const f=e.target.files[0];if(f)onPick(await resize(f,w))}}/>
   </label>;
 }
@@ -91,10 +93,13 @@ function QuickKag({c,theme,set,go}){
 
 function Overview(p){
   const {c,theme,set,go}=p;
+  const [adjN,setAdjN]=useState(0);
   const pins=c.npc.filter(n=>n.pin),hide=HIDE[theme],ag=isAgent(theme,c);
   return <div className="grid">
     <div>
-      <div className="photos">{[1,2].map(n=><Pic key={n} cls={'photo'+(ag?' ccgf':'')} src={c['img'+n]} w={420} onPick={v=>set({['img'+n]:v})}/>)}</div>
+      <div className="photos">{[1,2].map(n=><Pic key={n} cls={'photo'+(ag?' ccgf':'')} src={c['img'+n]} adj={c['adj'+n]} w={420} onPick={v=>set({['img'+n]:v,['adj'+n]:null})}/>)}</div>
+      <div className="photos" style={{marginTop:'.5rem'}}>{[1,2].map(n=><button key={n} className="adjbtn" disabled={!c['img'+n]} onClick={()=>setAdjN(n)}>✎ Ajustar foto {n}</button>)}</div>
+      {adjN>0&&<PhotoAdjust src={c['img'+adjN]} adj={c['adj'+adjN]} onClose={()=>setAdjN(0)} onSave={a=>{set({['adj'+adjN]:a});setAdjN(0)}}/>}
       {theme==='ghoul'&&<GhoulCard c={c}/>}
       {ag&&<><CcgCard c={c}/><CardEditor c={c} set={set}/></>}
       {pins.length>0&&<div style={{marginTop:'1rem'}}>
@@ -138,7 +143,7 @@ function ListView({k,c,set,theme}){
 
 export default function Sheet({cur,change,back,viewing}){
   const {c,theme}=cur;
-  const [tab,setTab]=useState('geral'),[menu,setMenu]=useState(false);
+  const [tab,setTab]=useState('geral'),[menu,setMenu]=useState(false),[hist,setHist]=useState([]);
   const hide=HIDE[theme],t=hide.includes(tab)?'geral':tab;
   const p={c,theme,go:setTab,set:patch=>change({...c,...patch})};
   return <>
@@ -159,6 +164,7 @@ export default function Sheet({cur,change,back,viewing}){
     {t==='hist'&&<>
       <div className="card"><textarea style={{minHeight:220}} value={c.hist} onChange={e=>p.set({hist:e.target.value})} placeholder="Histórico do personagem..."/></div>
       <h3>Anotações</h3><ListView k="anot" {...p}/></>}
-    {!['geral','info','status','hist'].includes(t)&&<ListView key={t} k={t} {...p}/>}
+    {t==='dados'&&<Dice {...p} hist={hist} setHist={setHist}/>}
+    {!['geral','info','status','hist','dados'].includes(t)&&<ListView key={t} k={t} {...p}/>}
   </>;
 }

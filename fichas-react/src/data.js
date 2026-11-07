@@ -1,5 +1,5 @@
 export const TH={ghoul:'Ghoul',ccg:'CCG',humano:'Humano'};
-export const TABS=[['geral','Visão geral'],['info','Informações pessoais'],['status','Status'],['equip','Equipamentos'],['acess','Acessórios'],['kag','Kagune/Quinque'],['pas','Passivas'],['hab','Habilidades especiais'],['npc','NPCs'],['hist','Histórico']];
+export const TABS=[['geral','Visão geral'],['info','Informações pessoais'],['status','Status'],['dados','Dados'],['equip','Equipamentos'],['acess','Acessórios'],['kag','Kagune/Quinque'],['pas','Passivas'],['hab','Habilidades especiais'],['npc','NPCs'],['hist','Histórico']];
 export const HIDE={ghoul:[],ccg:[],humano:['kag']};
 export const CNT=[['equip','Equipamentos'],['acess','Acessórios'],['kag','Kagune/Quinque'],['pas','Passivas'],['hab','Habilidades'],['npc','NPCs'],['anot','Anotações','hist']];
 export const SITU=['Ativo','Afastado','Aposentado','Desaparecido','Falecido'];

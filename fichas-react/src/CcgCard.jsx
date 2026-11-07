@@ -1,5 +1,6 @@
 import {RANKS,SITU} from './data';
 import {toKatakana} from './katakana';
+import {Fit} from './PhotoAdjust';
 
 // Ícone de espadas cruzadas (estilo Lucide)
 export const Swords=()=>(
@@ -52,7 +53,7 @@ export function CcgCard({c}){
         {cd.ht.split(' ').map((w,i)=>/^[A-ZÀ-Ý]/.test(w)?<span key={i}><b>{w[0]}</b>{w.slice(1)} </span>:<span key={i}>{w} </span>)}
       </div>
       <div className="bd">
-        <div className="ph" style={c.img1?{backgroundImage:`url(${c.img1})`}:undefined}/>
+        <div className="ph">{c.img1&&<Fit src={c.img1} adj={c.adj1}/>}</div>
         <div>
           <div className="nm">{c.name||'Sem nome'} {jp&&<span className="jp">({jp})</span>}</div>
           <div className="rk">[ {rank} ]</div>
