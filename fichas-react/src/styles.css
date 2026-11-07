@@ -237,3 +237,16 @@ nav.tabs button.on{border-left-color:var(--acc);background:var(--panel2)}
 .dchips-clear{font-size:.8rem}
 @keyframes pop{from{transform:scale(.92);opacity:.4}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){.rr.big{animation:none}}
+
+/* cartão do Ghoul: rótulos em português (texto) */
+.glb{left:40.6%;font-size:3.2cqw;font-weight:900;line-height:1.05!important}
+.glb .k{display:block}
+.glb small{display:block;font-size:.72em;font-weight:700;letter-spacing:.02em;margin-top:.18em;white-space:nowrap}
+.gval{left:55%;max-width:21.5%;overflow:hidden;text-overflow:ellipsis;font-weight:900;letter-spacing:.02em}
+.ithumb{aspect-ratio:7/10}
+.qk .chip .t{overflow:hidden;position:relative}
+
+/* ajuste fino do espaçamento do cartão do Ghoul */
+.gttl{top:38.6%;font-size:3.8cqw}
+.gsub{top:45%;font-size:2.7cqw}
+.glb{font-size:2.8cqw}

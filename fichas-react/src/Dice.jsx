@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {roll} from './dice';
+import {roll} from './rollDice';
 import {statsFor} from './data';
 
 const QUICK=[4,6,8,10,12,20,100];

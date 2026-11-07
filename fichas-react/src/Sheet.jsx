@@ -86,7 +86,7 @@ function QuickKag({c,theme,set,go}){
       <textarea value={d} onChange={e=>setD(e.target.value)} placeholder="Descrição, dano, efeito..."/>
     </div>
     {c.kag.length>0&&<div className="chips">{c.kag.map((k,i)=><div className="chip" key={i} onClick={()=>go('kag')}>
-      <div className="t" style={k.img?{backgroundImage:`url(${k.img})`}:undefined}/>
+      <div className="t">{k.img&&<Fit src={k.img} adj={k.adj}/>}</div>
       <div><b>{k.n}</b>{k.d&&<small>{k.d}</small>}</div></div>)}</div>}
   </div>;
 }
@@ -106,7 +106,7 @@ function Overview(p){
         <small style={{color:'var(--muted)'}}>NPCs</small>
         <div className="photos" style={{gridTemplateColumns:'repeat(auto-fill,minmax(90px,1fr))',marginTop:'.4rem'}}>
           {pins.map((n,i)=><div key={i} title={n.d} onClick={()=>go('npc')} style={{cursor:'pointer'}}>
-            <div className="ithumb" style={n.img?{backgroundImage:`url(${n.img})`}:undefined}>{n.img?'':'Sem foto'}</div>
+            <div className="ithumb">{n.img?<Fit src={n.img} adj={n.adj}/>:'Sem foto'}</div>
             <div className="cap" style={{fontSize:'.85rem'}}>{n.n}</div>
           </div>)}
         </div>
@@ -121,7 +121,7 @@ function Overview(p){
 }
 
 function ListView({k,c,set,theme}){
-  const [n,setN]=useState(''),[d,setD]=useState('');
+  const [n,setN]=useState(''),[d,setD]=useState(''),[adjI,setAdjI]=useState(null);
   const arr=c[k],ph=PH.includes(k);
   const upd=(i,patch)=>set({[k]:arr.map((x,j)=>j===i?{...x,...patch}:x)});
   const add=()=>{if(!n.trim())return;set({[k]:[...arr,{n:n.trim(),d:d.trim()}]});setN('');setD('')};
@@ -132,12 +132,14 @@ function ListView({k,c,set,theme}){
       <textarea value={d} onChange={e=>setD(e.target.value)} placeholder="Descrição, dano, efeito..."/>
     </div>
     {arr.length?arr.map((it,i)=><div className={'item'+(ph?' ph':'')} key={i}>
-      {ph&&<Pic cls="ithumb" src={it.img} w={360} onPick={v=>upd(i,{img:v})}/>}
+      {ph&&<Pic cls="ithumb" src={it.img} adj={it.adj} w={360} onPick={v=>upd(i,{img:v,adj:null})}/>}
+      {ph&&<button className="adjbtn" style={{gridColumn:1,gridRow:3}} disabled={!it.img} onClick={()=>setAdjI(i)}>✎ Ajustar</button>}
       <input value={it.n} onChange={e=>upd(i,{n:e.target.value})}/>
       <button className="del" onClick={()=>set({[k]:arr.filter((_,j)=>j!==i)})} aria-label="Remover">×</button>
       <textarea value={it.d} onChange={e=>upd(i,{d:e.target.value})}/>
       {k==='npc'&&<button className={'pin'+(it.pin?' on':'')} onClick={()=>upd(i,{pin:!it.pin})}>{it.pin?'★ Na tela principal':'☆ Fixar na tela principal'}</button>}
     </div>):<div className="empty">Nada por aqui ainda.</div>}
+    {adjI!==null&&arr[adjI]&&<PhotoAdjust src={arr[adjI].img} adj={arr[adjI].adj} onClose={()=>setAdjI(null)} onSave={a=>{upd(adjI,{adj:a});setAdjI(null)}}/>}
   </div>;
 }
 
